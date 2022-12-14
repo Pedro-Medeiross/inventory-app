@@ -30,7 +30,29 @@
 </head>
 <body>
 <header>
-
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="{{ route('stores.index') }}">Home</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse d-flex" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    @auth
+                        <a class="nav-link" href="{{ route('stores.index') }}" style="font-weight: bold">Stores</a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="btn btn-danger">Logout</button>
+                    </form>
+                    @endauth
+                    @guest
+                        <a class="nav-link" href="{{ route('login') }}" style="font-weight: bold">login</a>
+                    @endguest
+                </ul>
+            </div>
+        </div>
+    </nav>
 </header>
 <div class="container-fluid">
     {{ $slot }}

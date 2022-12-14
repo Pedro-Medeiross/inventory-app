@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoresFormRequest;
+use App\Mail\StoresCreated;
+use App\Mail\StoresDeleted;
+use App\Mail\StoresEdited;
 use App\Models\Store;
 use App\Repository\StoresRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class StoresController extends Controller
 {
@@ -31,6 +36,13 @@ class StoresController extends Controller
     {
         $store = $this->repository->addStore($request);
 
+        $email = new StoresCreated(
+            store: $store->id,
+            storeName: $store->name,
+            storeAddress: $store->address,
+        );
+        Mail::to(Auth::user())->queue($email);
+
         return to_route('stores.index')
             ->with('message.success', "Store '{$store->name}' created successfully");
     }
@@ -46,12 +58,26 @@ class StoresController extends Controller
     {
         $store = $this->repository->updateStore($request ,$store);
 
+        $email = new StoresEdited(
+            store: $store->id,
+            storeName: $store->name,
+            storeAddress: $store->address,
+        );
+        Mail::to(Auth::user())->queue($email);
+
         return to_route('stores.index')->with('message.success', "Store '$store->name' updated successfully");
     }
 
     public function destroy(Store $store)
     {
         $store = $this->repository->deleteStore($store);
+
+        $email = new StoresDeleted(
+            store: $store->id,
+            storeName: $store->name,
+            storeAddress: $store->address,
+        );
+        Mail::to(Auth::user())->queue($email);
 
         return to_route('stores.index')->with('message.success', "Store '$store->name' deleted successfully");
     }

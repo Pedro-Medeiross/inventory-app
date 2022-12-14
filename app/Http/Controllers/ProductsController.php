@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductsFormRequest;
+use App\Mail\ProductsCreated;
+use App\Mail\ProductsDeleted;
+use App\Mail\ProductsEdited;
 use App\Models\Products;
 use App\Models\Store;
 use App\Repository\ProductsRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class ProductsController extends Controller
 {
@@ -23,7 +28,16 @@ class ProductsController extends Controller
 
     public function store(ProductsFormRequest $request)
     {
+
         $product = $this->repository->addProduct($request);
+
+        $email = new ProductsCreated(
+            store: $product->store_id,
+            product: $product->id,
+            productName: $product->name,
+            productPrice: $product->price,
+        );
+        Mail::to(Auth::user())->queue($email);
 
         return to_route('stores.show', $product->store_id)
             ->with('message.success', "Product '{$product->name}' created successfully");
@@ -40,6 +54,14 @@ class ProductsController extends Controller
     {
         $product = $this->repository->updateProduct($request, $product);
 
+        $email = new ProductsEdited(
+            store: $product->store_id,
+            product: $product->id,
+            productName: $product->name,
+            productPrice: $product->price,
+        );
+        Mail::to(Auth::user())->queue($email);
+
         return to_route('stores.show', $product->store_id)
             ->with('message.success', "Product '$product->name' updated successfully");
     }
@@ -47,6 +69,14 @@ class ProductsController extends Controller
     public function destroy(Products $product)
     {
         $product = $this->repository->deleteProduct($product);
+
+        $email = new ProductsDeleted(
+            store: $product->store_id,
+            product: $product->id,
+            productName: $product->name,
+            productPrice: $product->price,
+        );
+        Mail::to(Auth::user())->queue($email);
 
         return to_route('stores.show', $product->store_id)
             ->with('message.success', "Product '{$product->name}' deleted successfully");

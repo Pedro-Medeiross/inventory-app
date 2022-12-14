@@ -20,7 +20,7 @@
         </div>
         <div>
             <label for="quantity" class="form-label">Quantity</label>
-            <input type="number" name="quantity" id="quantity" class="form-control" @isset($quantity)value="{{ $quantity }}"@endisset disabled>
+            <input type="number" name="quantity" id="quantity" class="form-control" @isset($quantity)value="{{ $quantity }}"@endisset>
         </div>
         <div>
             <label for="store_id" class="form-label" hidden>Store</label>
