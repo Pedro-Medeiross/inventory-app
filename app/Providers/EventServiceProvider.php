@@ -2,6 +2,18 @@
 
 namespace App\Providers;
 
+use App\Events\ProductsCreated;
+use App\Events\ProductsDeleted;
+use App\Events\ProductsEdited;
+use App\Events\StoresCreated;
+use App\Events\StoresDeleted;
+use App\Events\StoresEdited;
+use App\Listeners\ProductsCreatedEmailSender;
+use App\Listeners\ProductsDeletedEmailSender;
+use App\Listeners\ProductsEditedEmailSender;
+use App\Listeners\StoresCreatedEmailSender;
+use App\Listeners\StoresDeletedEmailSender;
+use App\Listeners\StoresEditedEmailSender;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -17,6 +29,24 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        StoresCreated::class => [
+            StoresCreatedEmailSender::class,
+        ],
+        StoresEdited::class => [
+            StoresEditedEmailSender::class,
+        ],
+        StoresDeleted::class => [
+            StoresDeletedEmailSender::class,
+        ],
+        ProductsCreated::class => [
+            ProductsCreatedEmailSender::class,
+        ],
+        ProductsEdited::class => [
+            ProductsEditedEmailSender::class,
+        ],
+        ProductsDeleted::class => [
+            ProductsDeletedEmailSender::class,
         ],
     ];
 

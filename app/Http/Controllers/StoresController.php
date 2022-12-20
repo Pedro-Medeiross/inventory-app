@@ -36,12 +36,11 @@ class StoresController extends Controller
     {
         $store = $this->repository->addStore($request);
 
-        $email = new StoresCreated(
-            store: $store->id,
-            storeName: $store->name,
-            storeAddress: $store->address,
+        \App\Events\StoresCreated::dispatch (
+            $store->id,
+            $store->name,
+            $store->address,
         );
-        Mail::to(Auth::user())->queue($email);
 
         return to_route('stores.index')
             ->with('message.success', "Store '{$store->name}' created successfully");
@@ -58,12 +57,11 @@ class StoresController extends Controller
     {
         $store = $this->repository->updateStore($request ,$store);
 
-        $email = new StoresEdited(
-            store: $store->id,
-            storeName: $store->name,
-            storeAddress: $store->address,
+        \App\Events\StoresEdited::dispatch (
+            $store->id,
+            $store->name,
+            $store->address,
         );
-        Mail::to(Auth::user())->queue($email);
 
         return to_route('stores.index')->with('message.success', "Store '$store->name' updated successfully");
     }
@@ -72,12 +70,11 @@ class StoresController extends Controller
     {
         $store = $this->repository->deleteStore($store);
 
-        $email = new StoresDeleted(
-            store: $store->id,
-            storeName: $store->name,
-            storeAddress: $store->address,
+        \App\Events\StoresDeleted::dispatch(
+            $store->id,
+            $store->name,
+            $store->address,
         );
-        Mail::to(Auth::user())->queue($email);
 
         return to_route('stores.index')->with('message.success', "Store '$store->name' deleted successfully");
     }

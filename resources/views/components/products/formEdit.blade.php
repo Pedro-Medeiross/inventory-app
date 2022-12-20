@@ -15,7 +15,7 @@
             <input type="text" name="description" id="description" class="form-control" @isset($description)value="{{ $description }}"@endisset>
         </div>
         <div>
-            <label for="address" class="form-label">Price</label>
+            <label for="price" class="form-label">Price</label>
             <input type="text" name="price" id="price" class="form-control" @isset($price)value="{{ $price }}"@endisset>
         </div>
         <div>

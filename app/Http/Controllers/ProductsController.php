@@ -31,13 +31,12 @@ class ProductsController extends Controller
 
         $product = $this->repository->addProduct($request);
 
-        $email = new ProductsCreated(
-            store: $product->store_id,
-            product: $product->id,
-            productName: $product->name,
-            productPrice: $product->price,
+        \App\Events\ProductsCreated::dispatch(
+            $product->store_id,
+            $product->id,
+            $product->name,
+            $product->price,
         );
-        Mail::to(Auth::user())->queue($email);
 
         return to_route('stores.show', $product->store_id)
             ->with('message.success', "Product '{$product->name}' created successfully");
@@ -54,13 +53,12 @@ class ProductsController extends Controller
     {
         $product = $this->repository->updateProduct($request, $product);
 
-        $email = new ProductsEdited(
-            store: $product->store_id,
-            product: $product->id,
-            productName: $product->name,
-            productPrice: $product->price,
+        \App\Events\ProductsEdited::dispatch(
+            $product->store_id,
+            $product->id,
+            $product->name,
+            $product->price,
         );
-        Mail::to(Auth::user())->queue($email);
 
         return to_route('stores.show', $product->store_id)
             ->with('message.success', "Product '$product->name' updated successfully");
@@ -70,13 +68,12 @@ class ProductsController extends Controller
     {
         $product = $this->repository->deleteProduct($product);
 
-        $email = new ProductsDeleted(
-            store: $product->store_id,
-            product: $product->id,
-            productName: $product->name,
-            productPrice: $product->price,
+        \App\Events\ProductsDeleted::dispatch(
+            $product->store_id,
+            $product->id,
+            $product->name,
+            $product->price,
         );
-        Mail::to(Auth::user())->queue($email);
 
         return to_route('stores.show', $product->store_id)
             ->with('message.success', "Product '{$product->name}' deleted successfully");
