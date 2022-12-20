@@ -23,8 +23,17 @@ class StoresFormRequest extends FormRequest
      */
     public function rules()
     {
+        if ($this->method() === 'PUT') {
+            return [
+                'name' => 'required|min:3|max:255',
+                'description' => 'required|min:3|max:255',
+                'address' => 'required|min:3|max:255',
+                'storeimage' => 'nullable|image',
+            ];
+        }
         return ['name'=>'required|min:3|max:255',
                 'description'=>'required|min:3|max:255',
-                'address'=>'required|min:3|max:255'];
+                'address'=>'required|min:3|max:255',
+                'storeimage'=>'required|image'];
     }
 }

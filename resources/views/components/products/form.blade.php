@@ -1,5 +1,5 @@
 <div class="container">
-    <form action="{{ $action }}" method="post">
+    <form action="{{ $action }}" method="post" enctype="multipart/form-data">
         @csrf
         @if($update)
             @method('put')
@@ -15,7 +15,7 @@
             <input type="text" name="description" id="description" class="form-control" @isset($description)value="{{ $description }}"@endisset>
         </div>
         <div>
-            <label for="address" class="form-label">Price</label>
+            <label for="price" class="form-label">Price</label>
             <input type="text" name="price" id="price" class="form-control" @isset($price)value="{{ $price }}"@endisset>
         </div>
         <div>
@@ -25,6 +25,10 @@
         <div>
             <label for="store_id" class="form-label" hidden>Store</label>
             <input type="text" name="store_id" id="store_id" class="form-control" value="{{ $store->id }}" hidden>
+        </div>
+        <div>
+            <label for="productimage" class="form-label">Product Image</label>
+            <input type="file" name="productimage" id="productimage" class="form-control" accept="image/gif, image/jpeg, image/png">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
         <a href="{{ route('stores.show', $store->id) }}" class="btn btn-primary">Cancel</a>

@@ -11,6 +11,7 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th scope="col">Image</th>
                     <th scope="col">Name</th>
                     <th scope="col">Description</th>
                     <th scope="col">Price</th>
@@ -21,6 +22,7 @@
             <tbody>
                 @foreach($products as $product)
                 <tr>
+                    <td><img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" width="100"></td>
                     <td>{{ $product->name }}</td>
                     <td>{{ $product->description }}</td>
                     <td>{{ $product->price }}</td>
@@ -36,6 +38,7 @@
                 </tr>
                 @endforeach
             </tbody>
+        </table>
     </div>
 </x-layout>
 

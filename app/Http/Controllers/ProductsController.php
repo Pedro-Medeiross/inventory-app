@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class ProductsController extends Controller
 {
@@ -28,8 +29,17 @@ class ProductsController extends Controller
 
     public function store(ProductsFormRequest $request)
     {
-
-        $product = $this->repository->addProduct($request);
+        $image = $request->HasFile('productimage') ? $request->file('productimage')->store('products', 'public') : null;
+        $product = Products::create(
+            [
+                'name' => $request->name,
+                'description' => $request->description,
+                'price' => $request->price,
+                'quantity' => $request->quantity,
+                'store_id' => $request->store_id,
+                'image' => $image,
+            ]
+        );
 
         \App\Events\ProductsCreated::dispatch(
             $product->store_id,
@@ -51,7 +61,20 @@ class ProductsController extends Controller
 
     public function update(ProductsFormRequest $request, Products $product)
     {
-        $product = $this->repository->updateProduct($request, $product);
+        $oldImage = $product->image;
+        if($oldImage){
+            Storage::disk('public')->delete($oldImage);
+        }
+        $image = $request->HasFile('productimage') ? $request->file('productimage')->store('products', 'public') : null;
+        $product->update(
+            [
+                'name' => $request->name,
+                'description' => $request->description,
+                'price' => $request->price,
+                'quantity' => $request->quantity,
+                'image' => $image,
+            ]
+        );
 
         \App\Events\ProductsEdited::dispatch(
             $product->store_id,
@@ -66,6 +89,10 @@ class ProductsController extends Controller
 
     public function destroy(Products $product)
     {
+        $image = $product->image;
+        if($image){
+            Storage::disk('public')->delete($image);
+        }
         $product = $this->repository->deleteProduct($product);
 
         \App\Events\ProductsDeleted::dispatch(

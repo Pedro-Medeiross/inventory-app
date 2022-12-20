@@ -10,6 +10,7 @@
         <table class="table">
             <thead>
             <tr>
+                <th>Image</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Address</th>
@@ -19,6 +20,9 @@
             <tbody>
             @foreach($stores as $store)
                 <tr>
+                    <td>
+                    <img src="{{ asset('storage/' . $store->image) }}" alt="{{ $store->name }}" width="100" class="img-thumbnail">
+                    </td>
                     <td>{{ $store->name }}</td>
                     <td>{{ $store->description }}</td>
                     <td>{{ $store->address }}</td>

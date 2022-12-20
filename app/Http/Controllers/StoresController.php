@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class StoresController extends Controller
 {
@@ -34,7 +35,13 @@ class StoresController extends Controller
 
     public function store(StoresFormRequest $request)
     {
-        $store = $this->repository->addStore($request);
+        $image = $request->HasFile('storeimage') ? $request->file('storeimage')->store('stores', 'public') : null;
+        $store = Store::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'address' => $request->address,
+            'image' => $image,
+        ]);
 
         \App\Events\StoresCreated::dispatch (
             $store->id,
@@ -55,7 +62,20 @@ class StoresController extends Controller
 
     public function update(Store $store, StoresFormRequest $request)
     {
-        $store = $this->repository->updateStore($request ,$store);
+        $oldImage = $store->image;
+        if($oldImage){
+        Storage::disk('public')->delete($oldImage);
+        }
+        $image = $request->HasFile('storeimage') ? $request->file('storeimage')->store('stores', 'public') : null;
+        if(!$image){
+            $image = 'null';
+        }
+        $store->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'address' => $request->address,
+            'image' => $image,
+        ]);
 
         \App\Events\StoresEdited::dispatch (
             $store->id,
@@ -75,6 +95,10 @@ class StoresController extends Controller
             $store->name,
             $store->address,
         );
+        $image = $store->image;
+        if($image){
+            Storage::disk('public')->delete($image);
+        }
 
         return to_route('stores.index')->with('message.success', "Store '$store->name' deleted successfully");
     }

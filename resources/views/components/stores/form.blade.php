@@ -1,5 +1,5 @@
 <div class="container">
-    <form action="{{ $action }}" method="post">
+    <form action="{{ $action }}" method="post" enctype="multipart/form-data">
         @csrf
         @if($update)
             @method('put')
@@ -17,6 +17,10 @@
         <div>
             <label for="address" class="form-label">Address</label>
             <input type="text" name="address" id="address" class="form-control" @isset($address)value="{{ $address }}"@endisset>
+        </div>
+        <div>
+            <label for="storeimage" class="form-label">Store Image</label>
+            <input type="file" name="storeimage" id="storeimage" class="form-control" accept="image/gif, image/jpeg, image/png">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
         <a href="{{ route('stores.index') }}" class="btn btn-primary">Cancel</a>
