@@ -14,7 +14,7 @@ But for now i'm satisfied with this result</p>
 
 <p>First clone the app, then run <code>composer install</code> to install dependencies, after that run <code>npm install</code> and <code>npm run dev</code> to build necessary files to app run.
 <br> and run <code>php artisan migrate</code> to create the DB.
-<br> lastly run <code>php artisan serve</code> and in another terminal <code>php queue:listen</code> this last command creates a worker to send emails.</p>
+<br> lastly run <code>php artisan serve</code> and in another terminal <code>php artisan queue:listen</code> this last command creates a worker to send emails.</p>
 
 ## How to Use
 
