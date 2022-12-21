@@ -1,3 +1,27 @@
+<h1 align="center">Inventory App</h1>
+
+## About this app
+<p>This project is basically a CRUD, i've created this app as part of my portfolio. <br>
+I've used basic concepts like controllers, repository, Models, Migrations, Auth, Events, Listeners, Email Senders and more.
+<br> Basically is an app to you register your stores and products of a store, and control it. For a future i probably will create a <br>
+feature to register Managers and employee and make possible create pay orders and more.
+But for now i'm satisfied with this result</p>
+
+## Requisites
+### PHP 8.1 and Composer
+
+## How to Install
+
+<p>First clone the app, then run <code>composer install</code> to install dependencies, after that run <code>npm install</code> and <code>npm run dev</code> to build necessary files to app run.
+<br> and run <code>php artisan migrate</code> to create the DB.
+<br> lastly run <code>php artisan serve</code> and in another terminal <code>php queue:listen</code> this last command creates a worker to send emails.</p>
+
+## How to Use
+
+<p>Register an account and login, you're be redirect to index stores, then create a store, click in show button and create a product, you can modify cover, name, address for store and plus price and quantity for products. </p>
+
+---
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
