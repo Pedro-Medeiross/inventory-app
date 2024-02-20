@@ -1,5 +1,27 @@
 <h1 align="center">Inventory App</h1>
 
+## Sobre este aplicativo
+<p>Este projeto é basicamente um CRUD, eu criei este aplicativo como parte do meu portfólio. <br>
+Eu usei conceitos básicos como controladores, repositórios, modelos, migrações, autenticação, eventos, ouvintes, enviadores de e-mails e mais.
+<br> Basicamente, é um aplicativo para registrar suas lojas e produtos de uma loja, e controlá-los. Para o futuro, provavelmente vou criar uma <br>
+funcionalidade para cadastrar gerentes e funcionários e tornar possível criar pedidos de pagamento e mais.
+Mas, por enquanto, estou satisfeito com este resultado.</p>
+
+## Requisitos
+### PHP 8.1 e Composer
+
+## Como Instalar
+
+<p>Primeiro, clone o aplicativo, em seguida, execute <code>composer install</code> para instalar as dependências, depois execute <code>npm install</code> e <code>npm run dev</code> para construir os arquivos necessários para o funcionamento do aplicativo.
+<br> e execute <code>php artisan migrate</code> para criar o banco de dados.
+<br> por último, execute <code>php artisan serve</code> e em outro terminal <code>php artisan queue:listen</code> este último comando cria um worker para enviar e-mails.</p>
+
+## Como Usar
+
+<p>Registre uma conta e faça login, você será redirecionado para a página principal das lojas, então crie uma loja, clique no botão de visualização e crie um produto, você pode modificar a capa, nome, endereço da loja e adicionar preço e quantidade para os produtos.</p>
+
+---
+
 ## About this app
 <p>This project is basically a CRUD, i've created this app as part of my portfolio. <br>
 I've used basic concepts like controllers, repository, Models, Migrations, Auth, Events, Listeners, Email Senders and more.
